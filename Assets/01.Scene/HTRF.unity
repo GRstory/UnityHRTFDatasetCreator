@@ -1318,9 +1318,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3b8ad82d83b7f04cb89fd56f77f9923, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxConcurrent: 1
+  _maxConcurrent: 3
   _minSpawnInterval: 0.5
-  _maxSpawnInterval: 3
+  _maxSpawnInterval: 2
   _playOnStart: 1
   _sequenceDuration: 30
   _listener: {fileID: 1518253525}
