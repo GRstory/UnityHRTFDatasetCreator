@@ -1322,7 +1322,7 @@ MonoBehaviour:
   _minSpawnInterval: 0.5
   _maxSpawnInterval: 2
   _playOnStart: 1
-  _sequenceDuration: 30
+  _sequenceDuration: 15
   _listener: {fileID: 1518253525}
   _minDistance: 1
   _maxDistance: 10
@@ -1330,6 +1330,17 @@ MonoBehaviour:
   _audioSourcePrefab: {fileID: 6406769163815305513, guid: a095634268653c8428e712b36af0d900, type: 3}
   _library:
   - {fileID: 11400000, guid: d7f89e203dbd8f8459c30cff4a8c2c49, type: 2}
+  _trajectorySettings:
+    circularSpeedMinDeg: 20
+    circularSpeedMaxDeg: 90
+    linearSpeedMin: 0.5
+    linearSpeedMax: 4
+    waypointSpeedMin: 0.5
+    waypointSpeedMax: 3
+    waypointCountMin: 2
+    waypointCountMax: 6
+    waypointDistMin: 1
+    waypointDistMax: 10
 --- !u!4 &1610899365
 Transform:
   m_ObjectHideFlags: 0
