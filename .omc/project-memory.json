@@ -1,0 +1,193 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1778726012930,
+  "projectRoot": "c:\\Users\\EmberCove.DESKTOP-JMH4MOP\\Documents\\GitHub\\UnityHRTFDatasetCreator",
+  "techStack": {
+    "languages": [],
+    "frameworks": [],
+    "packageManager": null,
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": null,
+    "testCommand": null,
+    "lintCommand": null,
+    "devCommand": null,
+    "scripts": {}
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [],
+    "gitBranches": {
+      "defaultBranch": "main",
+      "branchingStrategy": null
+    }
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "Assets": {
+      "path": "Assets",
+      "purpose": "Static assets",
+      "fileCount": 11,
+      "lastAccessed": 1778726012899,
+      "keyFiles": [
+        "00.Data.meta",
+        "01.Scene.meta",
+        "02.Scripts.meta",
+        "03.Prefabs.meta",
+        "DefaultVolumeProfile.asset"
+      ]
+    },
+    "Library": {
+      "path": "Library",
+      "purpose": null,
+      "fileCount": 26,
+      "lastAccessed": 1778726012900,
+      "keyFiles": [
+        "AnnotationManager",
+        "ArtifactDB",
+        "ArtifactDB-lock",
+        "BuildPlayer.prefs",
+        "BuildProfileContext.asset"
+      ]
+    },
+    "Logs": {
+      "path": "Logs",
+      "purpose": null,
+      "fileCount": 4,
+      "lastAccessed": 1778726012900,
+      "keyFiles": [
+        "AssetImportWorker0-prev.log",
+        "AssetImportWorker1-prev.log",
+        "Packages-Update.log",
+        "shadercompiler-UnityShaderCompiler.exe-0.log"
+      ]
+    },
+    "Packages": {
+      "path": "Packages",
+      "purpose": null,
+      "fileCount": 2,
+      "lastAccessed": 1778726012900,
+      "keyFiles": [
+        "manifest.json",
+        "packages-lock.json"
+      ]
+    },
+    "ProjectSettings": {
+      "path": "ProjectSettings",
+      "purpose": null,
+      "fileCount": 24,
+      "lastAccessed": 1778726012901,
+      "keyFiles": [
+        "AudioManager.asset",
+        "ClusterInputManager.asset",
+        "DynamicsManager.asset",
+        "EditorBuildSettings.asset",
+        "EditorSettings.asset"
+      ]
+    },
+    "Temp": {
+      "path": "Temp",
+      "purpose": null,
+      "fileCount": 2,
+      "lastAccessed": 1778726012901,
+      "keyFiles": [
+        "FSTimeGet-b3ff0a7c61cf0a84685d39b6a182956c",
+        "UnityLockfile"
+      ]
+    },
+    "UserSettings": {
+      "path": "UserSettings",
+      "purpose": null,
+      "fileCount": 3,
+      "lastAccessed": 1778726012901,
+      "keyFiles": [
+        "EditorUserSettings.asset",
+        "Search.index",
+        "Search.settings"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "Assets\\02.Scripts\\SoundTrajectory.cs",
+      "accessCount": 8,
+      "lastAccessed": 1778728733574,
+      "type": "file"
+    },
+    {
+      "path": "Assets\\02.Scripts\\DatasetSessionManager.cs",
+      "accessCount": 6,
+      "lastAccessed": 1778728440844,
+      "type": "file"
+    },
+    {
+      "path": "Assets\\02.Scripts\\RandomSoundSpawner.cs",
+      "accessCount": 4,
+      "lastAccessed": 1778728947315,
+      "type": "file"
+    },
+    {
+      "path": "Assets\\02.Scripts\\GameManager.cs",
+      "accessCount": 1,
+      "lastAccessed": 1778727226657,
+      "type": "file"
+    },
+    {
+      "path": "Assets\\02.Scripts\\SoundEntry.cs",
+      "accessCount": 1,
+      "lastAccessed": 1778727226980,
+      "type": "file"
+    },
+    {
+      "path": "Assets\\02.Scripts\\AudioCapture.cs",
+      "accessCount": 1,
+      "lastAccessed": 1778727227756,
+      "type": "file"
+    },
+    {
+      "path": "Assets\\02.Scripts\\SoundMarker.cs",
+      "accessCount": 1,
+      "lastAccessed": 1778727228915,
+      "type": "file"
+    },
+    {
+      "path": "Assets\\02.Scripts\\SoundVisualizer.cs",
+      "accessCount": 1,
+      "lastAccessed": 1778727229281,
+      "type": "file"
+    },
+    {
+      "path": "Assets\\02.Scripts\\SoundDatasetUI.cs",
+      "accessCount": 1,
+      "lastAccessed": 1778727229632,
+      "type": "file"
+    },
+    {
+      "path": "Assets\\02.Scripts\\EHRTFLogic.cs",
+      "accessCount": 1,
+      "lastAccessed": 1778728134464,
+      "type": "file"
+    },
+    {
+      "path": "Assets\\02.Scripts\\ETrajectoryType.cs",
+      "accessCount": 1,
+      "lastAccessed": 1778728135673,
+      "type": "file"
+    },
+    {
+      "path": "Assets\\02.Scripts\\LabelRecorder.cs",
+      "accessCount": 1,
+      "lastAccessed": 1778728171812,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

@@ -1,0 +1,7 @@
+{
+  "tool_name": "Read",
+  "tool_input_preview": "{\"file_path\":\"C:\\\\Users\\\\EmberCove.DESKTOP-JMH4MOP\\\\.claude\\\\projects\\\\c--Users-EmberCove-DESKTOP-JMH4MOP-Documents-GitHub-UnityHRTFDatasetCreator\\\\memory\\\\MEMORY.md\"}",
+  "error": "File does not exist. Note: your current working directory is c:\\Users\\EmberCove.DESKTOP-JMH4MOP\\Documents\\GitHub\\UnityHRTFDatasetCreator.",
+  "timestamp": "2026-05-14T02:53:42.037Z",
+  "retry_count": 1
+}

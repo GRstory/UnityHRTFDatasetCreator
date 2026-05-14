@@ -26,9 +26,24 @@ public class RandomSoundSpawner : MonoBehaviour
     [Header("Library")]
     [SerializeField] private SoundEntry[] _library;
 
+    [Header("Trajectory")]
+    [SerializeField] private TrajectorySettings _trajectorySettings = new();
+
     private readonly List<AudioSource> _sources = new();
     private readonly List<SoundEntry> _playableEntries = new();
     private Coroutine _spawnLoop;
+
+    private SoundTrajectory[] _slotTrajectories;
+    private float[] _slotElapsed;
+    private SpawnInfo?[] _slotInfos;
+
+    private static readonly ETrajectoryType[] TrajectoryPool =
+    {
+        ETrajectoryType.Fixed,
+        ETrajectoryType.CircularOrbit,
+        ETrajectoryType.LinearSweep,
+        ETrajectoryType.RandomWaypoints,
+    };
 
     public struct SpawnInfo
     {
@@ -71,6 +86,11 @@ public class RandomSoundSpawner : MonoBehaviour
             }
         }
 
+        int slotCount = _sources.Count;
+        _slotTrajectories = new SoundTrajectory[slotCount];
+        _slotElapsed = new float[slotCount];
+        _slotInfos = new SpawnInfo?[slotCount];
+
         if (_library != null)
         {
             foreach (var entry in _library)
@@ -86,6 +106,26 @@ public class RandomSoundSpawner : MonoBehaviour
     void Start()
     {
         if (_playOnStart) StartSpawning();
+    }
+
+    void Update()
+    {
+        for (int i = 0; i < _sources.Count; i++)
+        {
+            if (!_slotInfos[i].HasValue) continue;
+
+            if (!_sources[i].isPlaying)
+            {
+                _slotInfos[i] = null;
+                _slotTrajectories[i] = null;
+                _slotElapsed[i] = 0f;
+                continue;
+            }
+
+            _slotElapsed[i] += Time.deltaTime;
+            if (_slotTrajectories[i] != null)
+                _sources[i].transform.position = _slotTrajectories[i].GetPosition(_slotElapsed[i]);
+        }
     }
 
     public void StartSpawning()
@@ -119,8 +159,35 @@ public class RandomSoundSpawner : MonoBehaviour
         for (int i = 0; i < _sources.Count; i++)
         {
             if (_sources[i] != null) _sources[i].Stop();
+            _slotInfos[i] = null;
+            _slotTrajectories[i] = null;
+            _slotElapsed[i] = 0f;
         }
         StartSpawning();
+    }
+
+    /// <summary>
+    /// 현재 재생 중인 모든 슬롯에 대해 콜백을 실행. LabelRecorder 등 외부 시스템용.
+    /// </summary>
+    public void ForEachActiveSlot(System.Action<SpawnInfo, Vector3> action)
+    {
+        for (int i = 0; i < _sources.Count; i++)
+        {
+            if (_slotInfos[i].HasValue && _sources[i].isPlaying)
+                action(_slotInfos[i].Value, _sources[i].transform.position);
+        }
+    }
+
+    /// <summary>
+    /// 자동 스폰 시퀀스의 1회분을 외부에서 트리거.
+    /// </summary>
+    public SpawnInfo? PlayRandom()
+    {
+        if (_playableEntries.Count == 0) return null;
+        int slotIdx = GetFreeSlotIndex();
+        if (slotIdx < 0) return null;
+        var entry = _playableEntries[Random.Range(0, _playableEntries.Count)];
+        return SpawnOn(_sources[slotIdx], slotIdx, entry);
     }
 
     private IEnumerator SpawnLoop()
@@ -129,6 +196,8 @@ public class RandomSoundSpawner : MonoBehaviour
         _sequenceStartTime = Time.time;
         _sequenceFrozenElapsed = 0f;
         OnSequenceStarted?.Invoke();
+
+        PlayRandom();
 
         while (Time.time - _sequenceStartTime < _sequenceDuration)
         {
@@ -143,36 +212,22 @@ public class RandomSoundSpawner : MonoBehaviour
         OnSequenceEnded?.Invoke();
     }
 
-    /// <summary>
-    /// 자동 스폰 시퀀스의 1회분을 외부에서 트리거.
-    /// 라이브러리 전체에서 ESoundEvent와 클립을 랜덤 선택, 랜덤 방향/거리에 배치 후 빈 슬롯에 재생.
-    /// 빈 슬롯이 없거나(=동시 재생 상한 도달) 라이브러리가 비었으면 null 반환.
-    /// </summary>
-    public SpawnInfo? PlayRandom()
-    {
-        if (_playableEntries.Count == 0) return null;
-        var src = GetFreeSource();
-        if (src == null) return null;
-        var entry = _playableEntries[Random.Range(0, _playableEntries.Count)];
-        return SpawnOn(src, entry);
-    }
-
-    private AudioSource GetFreeSource()
+    private int GetFreeSlotIndex()
     {
         for (int i = 0; i < _sources.Count; i++)
-            if (!_sources[i].isPlaying) return _sources[i];
-        return null;
+            if (!_sources[i].isPlaying) return i;
+        return -1;
     }
 
-    private SpawnInfo? SpawnOn(AudioSource src, SoundEntry entry)
+    private SpawnInfo? SpawnOn(AudioSource src, int slotIdx, SoundEntry entry)
     {
         AudioClip clip = PickClip(entry);
         if (clip == null) return null;
 
         Vector3 dir = _restrictToUpperHemisphere ? RandomUpperHemisphereDir() : Random.onUnitSphere;
         float dist = Random.Range(_minDistance, _maxDistance);
-        Vector3 origin = _listener != null ? _listener.position : Vector3.zero;
-        Vector3 worldPos = origin + dir * dist;
+        Vector3 listenerPos = _listener != null ? _listener.position : Vector3.zero;
+        Vector3 worldPos = listenerPos + dir * dist;
 
         src.transform.position = worldPos;
         src.clip = clip;
@@ -188,6 +243,11 @@ public class RandomSoundSpawner : MonoBehaviour
             Distance = dist,
             DspStartTime = AudioSettings.dspTime
         };
+
+        ETrajectoryType type = TrajectoryPool[Random.Range(0, TrajectoryPool.Length)];
+        _slotTrajectories[slotIdx] = SoundTrajectory.Create(type, worldPos, listenerPos, _trajectorySettings, _minDistance, _maxDistance);
+        _slotElapsed[slotIdx] = 0f;
+        _slotInfos[slotIdx] = info;
 
         OnSoundSpawned?.Invoke(info);
 
