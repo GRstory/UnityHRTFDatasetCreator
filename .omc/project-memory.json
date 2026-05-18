@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1778726012930,
+  "lastScanned": 1778812538776,
   "projectRoot": "c:\\Users\\EmberCove.DESKTOP-JMH4MOP\\Documents\\GitHub\\UnityHRTFDatasetCreator",
   "techStack": {
     "languages": [],
@@ -36,7 +36,7 @@
       "path": "Assets",
       "purpose": "Static assets",
       "fileCount": 11,
-      "lastAccessed": 1778726012899,
+      "lastAccessed": 1778812538745,
       "keyFiles": [
         "00.Data.meta",
         "01.Scene.meta",
@@ -48,8 +48,8 @@
     "Library": {
       "path": "Library",
       "purpose": null,
-      "fileCount": 26,
-      "lastAccessed": 1778726012900,
+      "fileCount": 28,
+      "lastAccessed": 1778812538745,
       "keyFiles": [
         "AnnotationManager",
         "ArtifactDB",
@@ -62,7 +62,7 @@
       "path": "Logs",
       "purpose": null,
       "fileCount": 4,
-      "lastAccessed": 1778726012900,
+      "lastAccessed": 1778812538745,
       "keyFiles": [
         "AssetImportWorker0-prev.log",
         "AssetImportWorker1-prev.log",
@@ -74,7 +74,7 @@
       "path": "Packages",
       "purpose": null,
       "fileCount": 2,
-      "lastAccessed": 1778726012900,
+      "lastAccessed": 1778812538746,
       "keyFiles": [
         "manifest.json",
         "packages-lock.json"
@@ -84,7 +84,7 @@
       "path": "ProjectSettings",
       "purpose": null,
       "fileCount": 24,
-      "lastAccessed": 1778726012901,
+      "lastAccessed": 1778812538746,
       "keyFiles": [
         "AudioManager.asset",
         "ClusterInputManager.asset",
@@ -97,9 +97,9 @@
       "path": "Temp",
       "purpose": null,
       "fileCount": 2,
-      "lastAccessed": 1778726012901,
+      "lastAccessed": 1778812538747,
       "keyFiles": [
-        "FSTimeGet-b3ff0a7c61cf0a84685d39b6a182956c",
+        "FSTimeGet-21ffe3fe4c1d86741b04b224f146efc5",
         "UnityLockfile"
       ]
     },
@@ -107,7 +107,7 @@
       "path": "UserSettings",
       "purpose": null,
       "fileCount": 3,
-      "lastAccessed": 1778726012901,
+      "lastAccessed": 1778812538747,
       "keyFiles": [
         "EditorUserSettings.asset",
         "Search.index",
@@ -132,6 +132,12 @@
       "path": "Assets\\02.Scripts\\RandomSoundSpawner.cs",
       "accessCount": 4,
       "lastAccessed": 1778728947315,
+      "type": "file"
+    },
+    {
+      "path": "99.pythonScripts\\trim_silence.py",
+      "accessCount": 2,
+      "lastAccessed": 1778813814379,
       "type": "file"
     },
     {
@@ -186,6 +192,18 @@
       "path": "Assets\\02.Scripts\\LabelRecorder.cs",
       "accessCount": 1,
       "lastAccessed": 1778728171812,
+      "type": "file"
+    },
+    {
+      "path": "Assets\\02.Scripts",
+      "accessCount": 1,
+      "lastAccessed": 1778812563067,
+      "type": "directory"
+    },
+    {
+      "path": "PythonScipts\\trim_silence.py",
+      "accessCount": 1,
+      "lastAccessed": 1778813889393,
       "type": "file"
     }
   ],
