@@ -168,9 +168,11 @@ public class RandomSoundSpawner : MonoBehaviour
         float endTime = Time.time + entry.RepeatDuration;
         while (Time.time < endTime && _slotInfos[slotIdx].HasValue)
         {
+            AudioClip clip = PickClip(entry);
+            if (clip != null) _sources[slotIdx].clip = clip;
             _sources[slotIdx].Play();
-            float wait = _sources[slotIdx].clip.length + Random.Range(entry.MinRepeatInterval, entry.MaxRepeatInterval);
-            yield return new WaitForSeconds(wait);
+            float interval = Random.Range(entry.MinRepeatInterval, entry.MaxRepeatInterval);
+            yield return new WaitForSeconds(_sources[slotIdx].clip.length + interval);
         }
         _slotRepeatCoroutines[slotIdx] = null;
         if (_slotInfos[slotIdx].HasValue)
@@ -188,6 +190,16 @@ public class RandomSoundSpawner : MonoBehaviour
         _slotInfos[i] = null;
         _slotTrajectories[i] = null;
         _slotElapsed[i] = 0f;
+    }
+
+    /// <summary>
+    /// 해당 AudioSource가 아직 활성 슬롯에 있으면 true. isPlaying 여부와 무관하게 슬롯 점유 여부만 확인.
+    /// </summary>
+    public bool IsSourceActive(AudioSource src)
+    {
+        for (int i = 0; i < _sources.Count; i++)
+            if (_sources[i] == src && _slotInfos[i].HasValue) return true;
+        return false;
     }
 
     /// <summary>

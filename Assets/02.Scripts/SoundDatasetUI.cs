@@ -105,7 +105,7 @@ public class SoundDatasetUI : MonoBehaviour
         {
             if (!_slots[i].Used) continue;
             var s = _slots[i].Info.Source;
-            if (s == null || !s.isPlaying) _slots[i] = default;
+            if (s == null || (!s.isPlaying && !_spawner.IsSourceActive(s))) _slots[i] = default;
         }
 
         if (_restartButton != null)

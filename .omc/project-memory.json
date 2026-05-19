@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1779072878046,
+  "lastScanned": 1779165978472,
   "projectRoot": "c:\\Users\\EmberCove.DESKTOP-JMH4MOP\\Documents\\GitHub\\UnityHRTFDatasetCreator",
   "techStack": {
     "languages": [],
@@ -36,7 +36,7 @@
       "path": "Assets",
       "purpose": "Static assets",
       "fileCount": 13,
-      "lastAccessed": 1779072877955,
+      "lastAccessed": 1779165978411,
       "keyFiles": [
         "0.Data.meta",
         "00.Data.meta",
@@ -48,8 +48,8 @@
     "Library": {
       "path": "Library",
       "purpose": null,
-      "fileCount": 27,
-      "lastAccessed": 1779072877955,
+      "fileCount": 28,
+      "lastAccessed": 1779165978412,
       "keyFiles": [
         "AnnotationManager",
         "ArtifactDB",
@@ -61,11 +61,13 @@
     "Logs": {
       "path": "Logs",
       "purpose": null,
-      "fileCount": 3,
-      "lastAccessed": 1779072877956,
+      "fileCount": 8,
+      "lastAccessed": 1779165978412,
       "keyFiles": [
         "AssetImportWorker0-prev.log",
+        "AssetImportWorker0.log",
         "AssetImportWorker1-prev.log",
+        "AssetImportWorker1.log",
         "Packages-Update.log"
       ]
     },
@@ -73,7 +75,7 @@
       "path": "Packages",
       "purpose": null,
       "fileCount": 2,
-      "lastAccessed": 1779072877956,
+      "lastAccessed": 1779165978413,
       "keyFiles": [
         "manifest.json",
         "packages-lock.json"
@@ -83,7 +85,7 @@
       "path": "ProjectSettings",
       "purpose": null,
       "fileCount": 24,
-      "lastAccessed": 1779072877956,
+      "lastAccessed": 1779165978413,
       "keyFiles": [
         "AudioManager.asset",
         "ClusterInputManager.asset",
@@ -96,7 +98,7 @@
       "path": "PythonScipts",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1779072877957,
+      "lastAccessed": 1779165978413,
       "keyFiles": [
         "trim_silence.py"
       ]
@@ -104,10 +106,12 @@
     "Temp": {
       "path": "Temp",
       "purpose": null,
-      "fileCount": 2,
-      "lastAccessed": 1779072877957,
+      "fileCount": 4,
+      "lastAccessed": 1779165978414,
       "keyFiles": [
+        "FSTimeGet-40aa0389ede09a64db0b2764ad2a5151",
         "FSTimeGet-5a436d49dbe747e47916abc99cf508e9",
+        "FSTimeGet-f81c22ef49b70134ca6528b6be39a007",
         "UnityLockfile"
       ]
     },
@@ -115,7 +119,7 @@
       "path": "UserSettings",
       "purpose": null,
       "fileCount": 3,
-      "lastAccessed": 1779072877958,
+      "lastAccessed": 1779165978414,
       "keyFiles": [
         "EditorUserSettings.asset",
         "Search.index",
@@ -126,26 +130,44 @@
   "hotPaths": [
     {
       "path": "Assets\\02.Scripts\\RandomSoundSpawner.cs",
-      "accessCount": 14,
-      "lastAccessed": 1779164257219,
+      "accessCount": 18,
+      "lastAccessed": 1779171001853,
       "type": "file"
     },
     {
       "path": "Assets\\02.Scripts\\SoundTrajectory.cs",
-      "accessCount": 5,
-      "lastAccessed": 1779080252975,
+      "accessCount": 6,
+      "lastAccessed": 1779170733733,
       "type": "file"
     },
     {
       "path": "Assets\\02.Scripts\\SoundDatasetUI.cs",
+      "accessCount": 5,
+      "lastAccessed": 1779171005936,
+      "type": "file"
+    },
+    {
+      "path": "PythonScipts\\trim_silence.py",
       "accessCount": 3,
-      "lastAccessed": 1779089974138,
+      "lastAccessed": 1779166878750,
       "type": "file"
     },
     {
       "path": "Assets\\02.Scripts\\SoundEntry.cs",
       "accessCount": 2,
       "lastAccessed": 1779080215146,
+      "type": "file"
+    },
+    {
+      "path": "Assets\\02.Scripts\\SoundMarker.cs",
+      "accessCount": 2,
+      "lastAccessed": 1779170829224,
+      "type": "file"
+    },
+    {
+      "path": "Assets\\02.Scripts\\SoundVisualizer.cs",
+      "accessCount": 2,
+      "lastAccessed": 1779170869178,
       "type": "file"
     },
     {
@@ -176,12 +198,6 @@
       "path": "Assets\\02.Scripts\\DatasetSessionManager.cs",
       "accessCount": 1,
       "lastAccessed": 1779089901314,
-      "type": "file"
-    },
-    {
-      "path": "Assets\\02.Scripts\\SoundMarker.cs",
-      "accessCount": 1,
-      "lastAccessed": 1779089948447,
       "type": "file"
     }
   ],

@@ -1402,7 +1402,6 @@ MonoBehaviour:
   _maxConcurrent: 3
   _minSpawnInterval: 0.5
   _maxSpawnInterval: 2
-  _playOnStart: 1
   _sequenceDuration: 15
   _listener: {fileID: 1518253525}
   _minDistance: 1
@@ -1410,7 +1409,13 @@ MonoBehaviour:
   _restrictToUpperHemisphere: 0
   _audioSourcePrefab: {fileID: 6406769163815305513, guid: a095634268653c8428e712b36af0d900, type: 3}
   _library:
+  - {fileID: 11400000, guid: 75b41608f439ef741a2be7a0941dd08c, type: 2}
+  - {fileID: 11400000, guid: 6ac57bfaefc5d4b44ae4b6958c026459, type: 2}
   - {fileID: 11400000, guid: ac6a585233339304b998693ddcbb2fcf, type: 2}
+  - {fileID: 11400000, guid: cf457bdf17fd29144b2f9f47a53baf18, type: 2}
+  - {fileID: 11400000, guid: cc3f498091aaad24b941a8627e674a6a, type: 2}
+  - {fileID: 11400000, guid: b1674013bd07a3b4fb514407f8287da8, type: 2}
+  - {fileID: 11400000, guid: 490a3e27c24934d48b06b419b802d5cc, type: 2}
   _trajectorySettings:
     circularSpeedMinDeg: 20
     circularSpeedMaxDeg: 90

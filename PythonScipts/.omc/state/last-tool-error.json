@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"Remove-Item \\\"c:\\\\Users\\\\EmberCove.DESKTOP-JMH4MOP\\\\Documents\\\\GitHub\\\\UnityHRTFDatasetCreator\\\\Assets\\\\0.Data\\\\ClearAudio\\\\*\\\" -Force && cd \\\"c:\\\\Users\\\\EmberCove.DESKTOP-JMH4MOP\\\\Documen...",
+  "error": "Exit code 127\n/usr/bin/bash: line 1: Remove-Item: command not found",
+  "timestamp": "2026-05-19T05:03:26.040Z",
+  "retry_count": 1
+}
