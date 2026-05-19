@@ -30,13 +30,13 @@ public abstract class SoundTrajectory
 {
     public abstract Vector3 GetPosition(float elapsed);
 
-    public static SoundTrajectory Create(ETrajectoryType type, Vector3 spawnWorldPos, Vector3 listenerWorldPos, TrajectorySettings s, float minDist, float maxDist)
+    public static SoundTrajectory Create(ETrajectoryType type, Vector3 spawnWorldPos, Vector3 listenerWorldPos, TrajectorySettings s, float minDist, float maxDist, float speedMultiplier = 1f)
     {
         return type switch
         {
-            ETrajectoryType.CircularOrbit   => new CircularOrbitTrajectory(spawnWorldPos, listenerWorldPos, s),
-            ETrajectoryType.LinearSweep     => new LinearSweepTrajectory(spawnWorldPos, listenerWorldPos, s, minDist, maxDist),
-            ETrajectoryType.RandomWaypoints => new RandomWaypointTrajectory(spawnWorldPos, listenerWorldPos, s),
+            ETrajectoryType.CircularOrbit   => new CircularOrbitTrajectory(spawnWorldPos, listenerWorldPos, s, speedMultiplier),
+            ETrajectoryType.LinearSweep     => new LinearSweepTrajectory(spawnWorldPos, listenerWorldPos, s, minDist, maxDist, speedMultiplier),
+            ETrajectoryType.RandomWaypoints => new RandomWaypointTrajectory(spawnWorldPos, listenerWorldPos, s, speedMultiplier),
             _                               => new FixedTrajectory(spawnWorldPos),
         };
     }
@@ -57,7 +57,7 @@ public sealed class CircularOrbitTrajectory : SoundTrajectory
     readonly float _startAngle;
     readonly float _elevationRad;
 
-    public CircularOrbitTrajectory(Vector3 spawnPos, Vector3 listenerPos, TrajectorySettings s)
+    public CircularOrbitTrajectory(Vector3 spawnPos, Vector3 listenerPos, TrajectorySettings s, float speedMultiplier = 1f)
     {
         _center = listenerPos;
         Vector3 offset = spawnPos - listenerPos;
@@ -66,7 +66,7 @@ public sealed class CircularOrbitTrajectory : SoundTrajectory
         Vector3 horizontal = new Vector3(offset.x, 0f, offset.z);
         _startAngle = Mathf.Atan2(offset.x, offset.z);
         _elevationRad = Mathf.Atan2(offset.y, Mathf.Max(0.001f, horizontal.magnitude));
-        float speedDeg = UnityEngine.Random.Range(s.circularSpeedMinDeg, s.circularSpeedMaxDeg);
+        float speedDeg = UnityEngine.Random.Range(s.circularSpeedMinDeg, s.circularSpeedMaxDeg) * speedMultiplier;
         _speedRad = speedDeg * Mathf.Deg2Rad * (UnityEngine.Random.value < 0.5f ? 1f : -1f);
     }
 
@@ -88,12 +88,12 @@ public sealed class LinearSweepTrajectory : SoundTrajectory
     readonly Vector3 _end;
     readonly float _duration;
 
-    public LinearSweepTrajectory(Vector3 spawnPos, Vector3 listenerPos, TrajectorySettings s, float minDist, float maxDist)
+    public LinearSweepTrajectory(Vector3 spawnPos, Vector3 listenerPos, TrajectorySettings s, float minDist, float maxDist, float speedMultiplier = 1f)
     {
         _start = spawnPos;
         float targetDist = UnityEngine.Random.Range(minDist, maxDist);
         _end = listenerPos + UnityEngine.Random.onUnitSphere * targetDist;
-        float speed = UnityEngine.Random.Range(s.linearSpeedMin, s.linearSpeedMax);
+        float speed = UnityEngine.Random.Range(s.linearSpeedMin, s.linearSpeedMax) * speedMultiplier;
         _duration = Vector3.Distance(_start, _end) / Mathf.Max(0.001f, speed);
     }
 
@@ -109,7 +109,7 @@ public sealed class RandomWaypointTrajectory : SoundTrajectory
     readonly Vector3[] _waypoints;
     readonly float[] _cumTime;
 
-    public RandomWaypointTrajectory(Vector3 spawnPos, Vector3 listenerPos, TrajectorySettings s)
+    public RandomWaypointTrajectory(Vector3 spawnPos, Vector3 listenerPos, TrajectorySettings s, float speedMultiplier = 1f)
     {
         int count = UnityEngine.Random.Range(s.waypointCountMin, s.waypointCountMax + 1);
         _waypoints = new Vector3[count + 1];
@@ -122,7 +122,7 @@ public sealed class RandomWaypointTrajectory : SoundTrajectory
             float dist = UnityEngine.Random.Range(s.waypointDistMin, s.waypointDistMax);
             _waypoints[i] = listenerPos + UnityEngine.Random.onUnitSphere * dist;
             float segDist = Vector3.Distance(_waypoints[i - 1], _waypoints[i]);
-            float speed = UnityEngine.Random.Range(s.waypointSpeedMin, s.waypointSpeedMax);
+            float speed = UnityEngine.Random.Range(s.waypointSpeedMin, s.waypointSpeedMax) * speedMultiplier;
             _cumTime[i] = _cumTime[i - 1] + segDist / Mathf.Max(0.001f, speed);
         }
     }

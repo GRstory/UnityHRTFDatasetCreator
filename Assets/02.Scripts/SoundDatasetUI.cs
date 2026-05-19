@@ -7,6 +7,7 @@ public class SoundDatasetUI : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private RandomSoundSpawner _spawner;
+    [SerializeField] private DatasetSessionManager _sessionManager;
     [SerializeField] private TMP_Text _sequenceText;
     [Tooltip("동시 재생 슬롯별 TMP_Text. 길이만큼만 표시됨(권장 3개).")]
     [SerializeField] private TMP_Text[] _slotTexts;
@@ -167,7 +168,9 @@ public class SoundDatasetUI : MonoBehaviour
 
     private void OnRestartClicked()
     {
-        if (_spawner == null) return;
-        _spawner.RestartSequence();
+        if (_sessionManager != null)
+            _sessionManager.StartSession();
+        else if (_spawner != null)
+            _spawner.RestartSequence();
     }
 }

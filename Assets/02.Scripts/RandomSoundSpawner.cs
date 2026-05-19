@@ -8,7 +8,6 @@ public class RandomSoundSpawner : MonoBehaviour
     [SerializeField] private int _maxConcurrent = 3;
     [SerializeField] private float _minSpawnInterval = 0.1f;
     [SerializeField] private float _maxSpawnInterval = 1.5f;
-    [SerializeField] private bool _playOnStart = true;
     [Tooltip("한 시퀀스의 길이(초). 이 시간이 지나면 새 사운드 스폰을 멈추고 OnSequenceEnded 발화.")]
     [SerializeField] private float _sequenceDuration = 30f;
 
@@ -36,6 +35,7 @@ public class RandomSoundSpawner : MonoBehaviour
     private SoundTrajectory[] _slotTrajectories;
     private float[] _slotElapsed;
     private SpawnInfo?[] _slotInfos;
+    private Coroutine[] _slotRepeatCoroutines;
 
     private static readonly ETrajectoryType[] TrajectoryPool =
     {
@@ -90,6 +90,7 @@ public class RandomSoundSpawner : MonoBehaviour
         _slotTrajectories = new SoundTrajectory[slotCount];
         _slotElapsed = new float[slotCount];
         _slotInfos = new SpawnInfo?[slotCount];
+        _slotRepeatCoroutines = new Coroutine[slotCount];
 
         if (_library != null)
         {
@@ -103,28 +104,29 @@ public class RandomSoundSpawner : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-        if (_playOnStart) StartSpawning();
-    }
-
     void Update()
     {
+        Vector3 listenerPos = _listener != null ? _listener.position : Vector3.zero;
+
         for (int i = 0; i < _sources.Count; i++)
         {
             if (!_slotInfos[i].HasValue) continue;
 
-            if (!_sources[i].isPlaying)
+            if (_slotRepeatCoroutines[i] == null && !_sources[i].isPlaying)
             {
-                _slotInfos[i] = null;
-                _slotTrajectories[i] = null;
-                _slotElapsed[i] = 0f;
+                FreeSlot(i);
                 continue;
             }
 
             _slotElapsed[i] += Time.deltaTime;
             if (_slotTrajectories[i] != null)
-                _sources[i].transform.position = _slotTrajectories[i].GetPosition(_slotElapsed[i]);
+            {
+                Vector3 newPos = _slotTrajectories[i].GetPosition(_slotElapsed[i]);
+                _sources[i].transform.position = newPos;
+
+                if (Vector3.Distance(newPos, listenerPos) > _maxDistance)
+                    FreeSlot(i);
+            }
         }
     }
 
@@ -157,13 +159,35 @@ public class RandomSoundSpawner : MonoBehaviour
     {
         StopSpawning();
         for (int i = 0; i < _sources.Count; i++)
-        {
-            if (_sources[i] != null) _sources[i].Stop();
-            _slotInfos[i] = null;
-            _slotTrajectories[i] = null;
-            _slotElapsed[i] = 0f;
-        }
+            FreeSlot(i);
         StartSpawning();
+    }
+
+    private IEnumerator RepeatLoop(int slotIdx, SoundEntry entry)
+    {
+        float endTime = Time.time + entry.RepeatDuration;
+        while (Time.time < endTime && _slotInfos[slotIdx].HasValue)
+        {
+            _sources[slotIdx].Play();
+            float wait = _sources[slotIdx].clip.length + Random.Range(entry.MinRepeatInterval, entry.MaxRepeatInterval);
+            yield return new WaitForSeconds(wait);
+        }
+        _slotRepeatCoroutines[slotIdx] = null;
+        if (_slotInfos[slotIdx].HasValue)
+            FreeSlot(slotIdx);
+    }
+
+    private void FreeSlot(int i)
+    {
+        if (_slotRepeatCoroutines[i] != null)
+        {
+            StopCoroutine(_slotRepeatCoroutines[i]);
+            _slotRepeatCoroutines[i] = null;
+        }
+        _sources[i].Stop();
+        _slotInfos[i] = null;
+        _slotTrajectories[i] = null;
+        _slotElapsed[i] = 0f;
     }
 
     /// <summary>
@@ -180,14 +204,29 @@ public class RandomSoundSpawner : MonoBehaviour
 
     /// <summary>
     /// 자동 스폰 시퀀스의 1회분을 외부에서 트리거.
+    /// 현재 활성 슬롯과 다른 클래스를 우선 선택해 동일 클래스 동시 재생 확률을 낮춤.
     /// </summary>
     public SpawnInfo? PlayRandom()
     {
         if (_playableEntries.Count == 0) return null;
         int slotIdx = GetFreeSlotIndex();
         if (slotIdx < 0) return null;
-        var entry = _playableEntries[Random.Range(0, _playableEntries.Count)];
+        var entry = PickEntryAvoidingActiveClasses();
         return SpawnOn(_sources[slotIdx], slotIdx, entry);
+    }
+
+    private SoundEntry PickEntryAvoidingActiveClasses()
+    {
+        var activeEvents = new System.Collections.Generic.HashSet<ESoundEvent>();
+        for (int i = 0; i < _slotInfos.Length; i++)
+            if (_slotInfos[i].HasValue) activeEvents.Add(_slotInfos[i].Value.SoundEvent);
+
+        var candidates = new List<SoundEntry>();
+        foreach (var e in _playableEntries)
+            if (!activeEvents.Contains(e.SoundEvent)) candidates.Add(e);
+
+        var pool = candidates.Count > 0 ? candidates : _playableEntries;
+        return pool[Random.Range(0, pool.Count)];
     }
 
     private IEnumerator SpawnLoop()
@@ -215,7 +254,7 @@ public class RandomSoundSpawner : MonoBehaviour
     private int GetFreeSlotIndex()
     {
         for (int i = 0; i < _sources.Count; i++)
-            if (!_sources[i].isPlaying) return i;
+            if (!_slotInfos[i].HasValue) return i;
         return -1;
     }
 
@@ -231,7 +270,6 @@ public class RandomSoundSpawner : MonoBehaviour
 
         src.transform.position = worldPos;
         src.clip = clip;
-        src.Play();
 
         var info = new SpawnInfo
         {
@@ -245,9 +283,14 @@ public class RandomSoundSpawner : MonoBehaviour
         };
 
         ETrajectoryType type = TrajectoryPool[Random.Range(0, TrajectoryPool.Length)];
-        _slotTrajectories[slotIdx] = SoundTrajectory.Create(type, worldPos, listenerPos, _trajectorySettings, _minDistance, _maxDistance);
+        _slotTrajectories[slotIdx] = SoundTrajectory.Create(type, worldPos, listenerPos, _trajectorySettings, _minDistance, _maxDistance, entry.SpeedMultiplier);
         _slotElapsed[slotIdx] = 0f;
         _slotInfos[slotIdx] = info;
+
+        if (entry.UseRepeatMode)
+            _slotRepeatCoroutines[slotIdx] = StartCoroutine(RepeatLoop(slotIdx, entry));
+        else
+            src.Play();
 
         OnSoundSpawned?.Invoke(info);
 
