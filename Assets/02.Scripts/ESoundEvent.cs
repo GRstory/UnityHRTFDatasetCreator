@@ -8,5 +8,8 @@ public enum ESoundEvent
     Footstep_Water,
     GunShot,
     LaserGunShot,
-    Explosion
+    Explosion,
+    Blade,
+    Wind,
+    
 }

@@ -135,6 +135,12 @@
       "type": "file"
     },
     {
+      "path": "PythonScipts\\trim_silence.py",
+      "accessCount": 11,
+      "lastAccessed": 1779252580104,
+      "type": "file"
+    },
+    {
       "path": "Assets\\02.Scripts\\SoundTrajectory.cs",
       "accessCount": 6,
       "lastAccessed": 1779170733733,
@@ -144,12 +150,6 @@
       "path": "Assets\\02.Scripts\\SoundDatasetUI.cs",
       "accessCount": 5,
       "lastAccessed": 1779171005936,
-      "type": "file"
-    },
-    {
-      "path": "PythonScipts\\trim_silence.py",
-      "accessCount": 3,
-      "lastAccessed": 1779166878750,
       "type": "file"
     },
     {

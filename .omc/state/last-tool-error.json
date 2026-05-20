@@ -1,0 +1,7 @@
+{
+  "tool_name": "Edit",
+  "tool_input_preview": "{\"file_path\":\"c:\\\\Users\\\\EmberCove.DESKTOP-JMH4MOP\\\\Documents\\\\GitHub\\\\UnityHRTFDatasetCreator\\\\PythonScipts\\\\trim_silence.py\",\"old_string\":\"    base = Path(__file__).parent\\n    input_path = (Path(ar...",
+  "error": "File content has changed since it was last read. This commonly happens when a linter or formatter run via Bash rewrites the file. Call Read on this file to refresh, then retry the edit.",
+  "timestamp": "2026-05-20T03:44:21.065Z",
+  "retry_count": 1
+}
