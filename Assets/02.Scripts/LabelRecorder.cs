@@ -22,7 +22,7 @@ public class LabelRecorder : MonoBehaviour
     {
         if (_loop != null) return;
         _hrtfLabel = hrtfLabel;
-        _rows = new List<string> { "frame_index,sound_class_id,azimuth_deg,elevation_deg,distance_m,hrtf_logic" };
+        _rows = new List<string> { "frame_index,sound_class_id,track_num,azimuth_deg,distance_cm,onscreen" };
         _frameIndex = 0;
         _loop = StartCoroutine(RecordLoop());
     }
@@ -59,18 +59,16 @@ public class LabelRecorder : MonoBehaviour
         _spawner.ForEachActiveSlot((info, worldPos) =>
         {
             Vector3 local = _listener.InverseTransformPoint(worldPos);
-            float az = Mathf.Atan2(local.x, local.z) * Mathf.Rad2Deg;
-            float horiz = Mathf.Sqrt(local.x * local.x + local.z * local.z);
-            float el = Mathf.Atan2(local.y, Mathf.Max(0.0001f, horiz)) * Mathf.Rad2Deg;
-            float dist = local.magnitude;
+            int az = Mathf.RoundToInt(Mathf.Atan2(local.x, local.z) * Mathf.Rad2Deg);
+            int distCm = Mathf.RoundToInt(local.magnitude * 100f);
 
             _sb.Clear();
             _sb.Append(_frameIndex).Append(',');
             _sb.Append((int)info.SoundEvent).Append(',');
-            _sb.Append(az.ToString("F2")).Append(',');
-            _sb.Append(el.ToString("F2")).Append(',');
-            _sb.Append(dist.ToString("F3")).Append(',');
-            _sb.Append(_hrtfLabel);
+            _sb.Append(info.TrackNum).Append(',');
+            _sb.Append(az).Append(',');
+            _sb.Append(distCm).Append(',');
+            _sb.Append(0);
             _rows.Add(_sb.ToString());
         });
     }

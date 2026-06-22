@@ -69,6 +69,19 @@ public class AudioCapture : MonoBehaviour
             rate = _sampleRate;
         }
 
+        float peak = 0f;
+        for (int i = 0; i < samples.Length; i++)
+        {
+            float abs = Math.Abs(samples[i]);
+            if (abs > peak) peak = abs;
+        }
+        if (peak > 0.98f)
+        {
+            float scale = 0.98f / peak;
+            for (int i = 0; i < samples.Length; i++)
+                samples[i] *= scale;
+        }
+
         string resolvedPath = ResolvePath(filePath);
         WriteWav16(resolvedPath, samples, channels, rate);
         LastSavedPath = resolvedPath;

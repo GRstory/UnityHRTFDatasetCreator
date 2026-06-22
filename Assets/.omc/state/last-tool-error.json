@@ -1,0 +1,7 @@
+{
+  "tool_name": "Read",
+  "tool_input_preview": "{\"file_path\":\"C:\\\\Users\\\\EmberCove.DESKTOP-JMH4MOP\\\\Documents\\\\GitHub\\\\UnityHRTFDatasetCreator\\\\Assets\"}",
+  "error": "EISDIR: illegal operation on a directory, read 'C:\\Users\\EmberCove.DESKTOP-JMH4MOP\\Documents\\GitHub\\UnityHRTFDatasetCreator\\Assets'",
+  "timestamp": "2026-06-16T01:39:27.268Z",
+  "retry_count": 1
+}
